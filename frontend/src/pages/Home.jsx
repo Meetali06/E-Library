@@ -7,6 +7,8 @@ import SearchBar from '../components/SearchBar'
 import AuthModal from '../components/AuthModal'
 import './Home.css'
 
+const API_BASE = import.meta.env.VITE_API_URL
+
 const heroSlides = [
   { img: '/images/bgimage.png', alt: 'Welcome to E-Library' },
   { img: '/images/image.png', alt: 'Smart Reading Starts Here' },
@@ -44,7 +46,7 @@ function Home() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/books')
+    axios.get(`${API_BASE}/api/books`)
       .then(res => setDynamicBooks(res.data.books || []))
       .catch(() => {})
   }, [])
@@ -79,9 +81,9 @@ function Home() {
       <div className="col-md-4" key={book._id}>
         <div className="thumbnail">
           {book.pdfUrl ? (
-            <a href={`http://localhost:5000${book.pdfUrl}`} target="_blank" rel="noopener noreferrer">
+            <a href={`${API_BASE}${book.pdfUrl}`} target="_blank" rel="noopener noreferrer">
               <img
-                src={book.imageUrl ? `http://localhost:5000${book.imageUrl}` : '/images/default-book.png'}
+                src={book.imageUrl ? `${API_BASE}${book.imageUrl}` : '/images/default-book.png'}
                 alt={book.title}
                 style={{ width: '50%' }}
                 onError={(e) => { e.target.style.display = 'none' }}
@@ -93,7 +95,7 @@ function Home() {
           ) : (
             <div>
               <img
-                src={book.imageUrl ? `http://localhost:5000${book.imageUrl}` : '/images/default-book.png'}
+                src={book.imageUrl ? `${API_BASE}${book.imageUrl}` : '/images/default-book.png'}
                 alt={book.title}
                 style={{ width: '50%' }}
                 onError={(e) => { e.target.style.display = 'none' }}

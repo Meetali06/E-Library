@@ -10,6 +10,7 @@ const MAX_RESULTS = 10
 const MAX_LOCAL_RESULTS = 5
 const MAX_REMOTE_RESULTS = 5
 const DEFAULT_BOOK_COVER = 'data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22150%22 height%3D%22200%22 viewBox%3D%220 0 150 200%22%3E%3Crect width%3D%22150%22 height%3D%22200%22 rx%3D%2212%22 fill%3D%22%23eceff3%22%2F%3E%3Cpath d%3D%22M35 30h55c8 0 15 7 15 15v110c-5-4-11-6-18-6H35z%22 fill%3D%22%23c8d0da%22%2F%3E%3Cpath d%3D%22M95 30h20c8 0 15 7 15 15v110c0 8-7 15-15 15h-20z%22 fill%3D%22%23dce3ea%22%2F%3E%3Ctext x%3D%2275%22 y%3D%22112%22 text-anchor%3D%22middle%22 font-size%3D%2218%22 font-family%3D%22Arial%2C sans-serif%22 fill%3D%22%23607080%22%3EBook%3C%2Ftext%3E%3C%2Fsvg%3E'
+const API_BASE = import.meta.env.VITE_API_URL
 
 const localBookRoutes = [
   '/book/rich-dad-poor-dad',
@@ -159,7 +160,7 @@ function SearchBar() {
   
   const searchGutendex = async (query, signal) => {
     try {
-      const response = await fetch(`/api/books/external-search?q=${encodeURIComponent(query)}`, { signal })
+      const response = await fetch(`${API_BASE}/api/books/external-search?q=${encodeURIComponent(query)}`, { signal })
       if (!response.ok) return []
 
       const data = await response.json()

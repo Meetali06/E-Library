@@ -4,6 +4,8 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/Auth.css'
 
+const API_BASE = import.meta.env.VITE_API_URL
+
 function ForgotPassword() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
@@ -37,7 +39,7 @@ function ForgotPassword() {
 
     try {
       // Call your backend endpoint to send reset email
-      const response = await axios.post('http://localhost:5000/api/auth/forgot-password', {
+      const response = await axios.post(`${API_BASE}/api/auth/forgot-password`, {
         email: email
       })
 

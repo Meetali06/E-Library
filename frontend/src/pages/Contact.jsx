@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+const API_BASE = import.meta.env.VITE_API_URL
+
 function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -28,7 +30,7 @@ function Contact() {
     setError('')
     
     try {
-      const response = await axios.post('http://localhost:5000/api/contact/send', formData)
+      const response = await axios.post(`${API_BASE}/api/contact/send`, formData)
       setSubmitted(true)
       setFormData({ name: '', email: '', subject: '', message: '' })
       

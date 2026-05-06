@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = 'http://localhost:5000/api'
+const API_BASE = import.meta.env.VITE_API_URL
 
 function AuthModal({ show, onClose, onLoginSuccess }) {
   const [loginType, setLoginType] = useState('user')
@@ -24,13 +24,13 @@ function AuthModal({ show, onClose, onLoginSuccess }) {
     try {
       let response
       if (loginType === 'admin') {
-        response = await fetch(`${API_BASE}/auth/admin/login`, {
+        response = await fetch(`${API_BASE}/api/auth/admin/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: loginData.email, password: loginData.password })
         })
       } else {
-        response = await fetch(`${API_BASE}/auth/login`, {
+        response = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: loginData.email, password: loginData.password })

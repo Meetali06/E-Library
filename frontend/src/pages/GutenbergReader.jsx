@@ -6,6 +6,8 @@ import { addBookToHistory } from '../utils/historyStorage'
 import { isBookFavorite, toggleBookFavorite } from '../utils/favoritesStorage'
 import { getCurrentTheme, getThemeColors, setTheme, toggleTheme } from '../utils/themeStorage'
 
+const API_BASE = import.meta.env.VITE_API_URL
+
 function GutenbergReader() {
   const { id: encodedId } = useParams()
   const location = useLocation()
@@ -94,7 +96,7 @@ function GutenbergReader() {
     const extension = readerUrl.toLowerCase().includes('.pdf') ? '.pdf' : '.html'
     const safeName = (bookTitle || 'book').replace(/[^a-z0-9\-_. ]/gi, '').trim() || 'book'
     const fileName = safeName.toLowerCase().endsWith(extension) ? safeName : `${safeName}${extension}`
-    const downloadUrl = `/api/books/external-download?url=${encodeURIComponent(readerUrl)}&filename=${encodeURIComponent(fileName)}`
+    const downloadUrl = `${API_BASE}/api/books/external-download?url=${encodeURIComponent(readerUrl)}&filename=${encodeURIComponent(fileName)}`
 
     const a = document.createElement('a')
     a.href = downloadUrl

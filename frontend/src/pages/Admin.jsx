@@ -5,6 +5,8 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+const API_BASE = import.meta.env.VITE_API_URL
+
 function Admin() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -56,7 +58,7 @@ function Admin() {
     try {
       setLoading(true)
       setError('')
-      const response = await axios.get('http://localhost:5000/api/admin/stats')
+      const response = await axios.get(`${API_BASE}/api/admin/stats`)
       setStats(response.data.stats)
       setSuccess('Statistics refreshed successfully!')
       setTimeout(() => setSuccess(''), 3000)
@@ -70,7 +72,7 @@ function Admin() {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('http://localhost:5000/api/admin/students')
+      const response = await axios.get(`${API_BASE}/api/admin/students`)
       setUsers(response.data.users)
     } catch (err) {
       setError('Error fetching users')
@@ -83,7 +85,7 @@ function Admin() {
     if (!window.confirm('Are you sure you want to delete this user?')) return
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${userId}`)
+      await axios.delete(`${API_BASE}/api/admin/users/${userId}`)
       setSuccess('User deleted successfully')
       fetchUsers()
       setTimeout(() => setSuccess(''), 3000)
@@ -95,7 +97,7 @@ function Admin() {
   const handleToggleRole = async (userId, currentRole) => {
     const newRole = currentRole === 'admin' ? 'student' : 'admin'
     try {
-      await axios.put(`http://localhost:5000/api/admin/users/${userId}/role`, { role: newRole })
+      await axios.put(`${API_BASE}/api/admin/users/${userId}/role`, { role: newRole })
       setSuccess(`User role updated to ${newRole}`)
       fetchUsers()
       setTimeout(() => setSuccess(''), 3000)
@@ -107,7 +109,7 @@ function Admin() {
   const fetchBooks = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('http://localhost:5000/api/books')
+      const response = await axios.get(`${API_BASE}/api/books`)
       setBooks(response.data.books || [])
     } catch (err) {
       setError('Error fetching books')
@@ -133,7 +135,7 @@ function Admin() {
       if (bookImage) formData.append('image', bookImage)
       if (bookPdf) formData.append('pdf', bookPdf)
 
-      await axios.post('http://localhost:5000/api/books', formData, {
+      await axios.post(`${API_BASE}/api/books`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
 
@@ -155,7 +157,7 @@ function Admin() {
     if (!window.confirm('Are you sure you want to delete this book?')) return
 
     try {
-      await axios.delete(`http://localhost:5000/api/books/${bookId}`)
+      await axios.delete(`${API_BASE}/api/books/${bookId}`)
       setSuccess('Book deleted successfully')
       fetchBooks()
       setTimeout(() => setSuccess(''), 3000)
@@ -647,7 +649,7 @@ function Admin() {
                               <td style={{ padding: '10px', verticalAlign: 'middle' }}>
                                 {book.imageUrl ? (
                                   <img
-                                    src={`http://localhost:5000${book.imageUrl}`}
+                                    src={`${API_BASE}${book.imageUrl}`}
                                     alt={book.title}
                                     style={{ width: '50px', height: '65px', objectFit: 'cover', borderRadius: '4px' }}
                                   />
@@ -673,7 +675,7 @@ function Admin() {
                                 <div className="btn-group" role="group">
                                   {book.pdfUrl && (
                                     <a
-                                      href={`http://localhost:5000${book.pdfUrl}`}
+                                      href={`${API_BASE}${book.pdfUrl}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       className="btn btn-sm btn-outline-primary"

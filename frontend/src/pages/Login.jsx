@@ -4,6 +4,8 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/Auth.css'
 
+const API_BASE = import.meta.env.VITE_API_URL
+
 function Login() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
@@ -53,7 +55,7 @@ function Login() {
     setSuccess('')
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_BASE}/api/auth/login`, {
         email: formData.email,
         password: formData.password
       })
